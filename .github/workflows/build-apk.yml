@@ -20,11 +20,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Gradle
-        uses: krzysztofslaski/setup-gradle-action@v1 # یا استفاده از gradle استاندارد
-        # چون gradle روی لینوکس به صورت پیش‌فرض هست، مستقیم تسک رو صدا می‌زنیم:
+      - name: Install Gradle Manually
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gradle
 
-      - name: Build Debug APK via Gradle
+      - name: Generate Gradle Wrapper and Build APK
         run: |
           gradle wrapper
           ./gradlew assembleDebug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BilingualSubtitleViewer-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
