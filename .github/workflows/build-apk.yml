@@ -25,7 +25,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gradle
 
-      - name: Generate Wrapper and List Tasks
+      - name: Generate Wrapper and Build APK
         run: |
           gradle wrapper --gradle-version 8.5
-          ./gradlew tasks
+          ./gradlew assembleDebug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BilingualSubtitleViewer-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
